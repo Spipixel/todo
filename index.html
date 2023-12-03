@@ -355,7 +355,7 @@
                     <div style="border: none" class="col-sm-12 ">
                         <div style="display: flex; width: 100%; height: 100%; padding: 15px 5px;">
                             <div>
-                                <button style="outline: none;border: none;background-color: transparent;" data-toggle="modal" data-target="#exampleModal" type="button">
+                                <button onclick="AddTodo()" style="outline: none;border: none;background-color: transparent;" data-toggle="modal" data-target="#exampleModal" type="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
@@ -370,35 +370,7 @@
                             <span style="font-weight: bolder; font-size: 1.5em;">TODO</span>
                         </div>
                         <div class="container">
-                            <div>
-                                <div id="1" class="p-3 bg-body-tertiary border rounded-4 list">
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr;">
-                                        <div
-                                            style="background-color: red;width: 10px;height: 10px;border-radius: 100%;">
-                                        </div>
-                                        <h5 id="date" style="font-size: 0.8em;text-align: right;">1/12/2023 </h5>
-                                    </div>
-                                    <h4 id="topic">todo website</h4>
-                                    <p id="details">Create an website Using html css and javascript</p>
-                                    <button onclick="todoNextStep('todo', '1')" class="btn btn-outline-secondary"
-                                        type="button">Let's Work</button>
-                                </div>
-                            </div>
-
-                            <div id="2">
-                                <div class=" p-3 bg-body-tertiary border rounded-4 list">
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr;">
-                                        <div
-                                            style="background-color: red;width: 10px;height: 10px;border-radius: 100%;">
-                                        </div>
-                                        <h5 id="date" style="font-size: 0.8em;text-align: right;">2/12/2023 </h5>
-                                    </div>
-                                    <h4 id="topic">todo website</h4>
-                                    <p id="details">Create an website Using html css and javascript</p>
-                                    <button onclick="todoNextStep('todo', '2')" class="btn btn-outline-secondary"
-                                        type="button">Let's Work</button>
-                                </div>
-                            </div>
+                            <div id="todo"></div>
                         </div>
                     </div>
                     <!-- In Progress List -->
@@ -412,7 +384,7 @@
                     <!-- Completed Work List -->
                     <div style="border-left: none" class="col-sm-4 themed-grid-col rid2">
                         <div>
-                            <span>Completed</span>
+                            <span style="font-weight: bolder; font-size: 1.5em;">Completed</span>
                         </div>
                     </div>
                 </div>
@@ -427,213 +399,6 @@
 <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="sidebars.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const customDiv = document.querySelector('.rid');
-        const customDiv1 = document.querySelector('.rid1');
-        const customDiv2 = document.querySelector('.rid2');
-        const themeToggleButtons = document.querySelectorAll('[data-bs-theme-value]');
-
-        // Function to update the theme based on the selected mode
-        function updateTheme(theme) {
-            if (theme === 'light') {
-                let lightColor = "#eeeeee";
-                customDiv.style.backgroundColor = lightColor;
-                customDiv1.style.backgroundColor = lightColor;
-                customDiv2.style.backgroundColor = lightColor;  // Light mode background color
-            } else if (theme === 'dark') {
-                let darkColor = "#6d6a6a";
-                customDiv.style.backgroundColor = darkColor;
-                customDiv1.style.backgroundColor = darkColor;
-                customDiv2.style.backgroundColor = darkColor;  // Dark mode background color
-            }
-
-            // Save the selected theme to localStorage
-            localStorage.setItem('selectedTheme', theme);
-        }
-
-        // Event listener for theme toggle buttons
-        themeToggleButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const selectedTheme = this.getAttribute('data-bs-theme-value');
-                updateTheme(selectedTheme);
-            });
-        });
-
-        // Check if a theme is stored in localStorage and apply it on page load
-        const storedTheme = localStorage.getItem('selectedTheme');
-        if (storedTheme) {
-            updateTheme(storedTheme);
-        }
-    });
-</script>
-
-
-
-<script>
-    function todoNextStep(category, id) {
-        // If category is todo then 
-        if (category == "todo") {
-
-            // Selecting Todo Data from todo
-            let todoItem = document.getElementById(id);
-            let todoItemDate = todoItem.querySelector("#date").textContent;
-            let todoItemTopic = todoItem.querySelector("#topic").textContent;
-            let todoItemDetails = todoItem.querySelector("#details").textContent;
-
-            // Test One Passed
-            console.log("Test One Passed");
-
-            // Creating an function to generate random numbers
-            function RandomIdGenerate(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            // Initialize an array to store the IDs of added items
-            let addedItems = [];
-
-
-            // Test Two
-            if (todoItemTopic != undefined) {
-                // Now selecting div from in progress section
-                let InProgress = document.getElementById("InProgress");
-
-                // Creating div inside InProgress div
-                let InProgressItem = document.createElement("div");
-                // Add Classes in Container Div element
-                InProgressItem.classList.add("p-3", "bg-body-tertiary", "border", "rounded-4", "list");
-                // Adding id from random generated numbers
-                RanId = RandomIdGenerate(1343, 10309);
-
-                // Check if the generated ID already exists
-                while (addedItems.some(item => item.id === RanId)) {
-                    RanId = RandomIdGenerate(1343, 10309);
-                }
-
-                InProgressItem.setAttribute("id", RanId);
-
-                InProgress.appendChild(InProgressItem);
-
-                console.log("Test Two Passed");
-
-                if (InProgressItem) {
-                    let container = document.createElement("div");
-                    let badge = document.createElement("div");
-                    let InProgressItemDate = document.createElement("h5");
-                    let InProgressItemTopic = document.createElement("h4");
-                    let InProgressItemDetails = document.createElement("p");
-                    let InProgressItemBtn = document.createElement("button");
-
-                    InProgressItemBtn.classList.add("btn", "btn-outline-secondary");
-
-                    container.style = "display:grid; grid-template-columns:1fr 1fr;";
-                    badge.style = "background-color: rgb(255, 238, 0);width: 10px;height: 10px;border-radius: 100%;";
-                    InProgressItemDate.style = "font-size: 0.8em;text-align: right;";
-
-                    InProgressItemDate.setAttribute("id", "date");
-                    InProgressItemTopic.setAttribute("id", "topic");
-                    InProgressItemDetails.setAttribute("id", "details");
-
-                    InProgressItemDate.innerHTML = todoItemDate;
-                    InProgressItemTopic.innerHTML = todoItemTopic;
-                    InProgressItemDetails.innerHTML = todoItemDetails;
-                    InProgressItemBtn.innerText = "Work Completed";
-
-                    InProgressItem.appendChild(container);
-                    InProgressItem.appendChild(InProgressItemTopic);
-                    InProgressItem.appendChild(InProgressItemDetails);
-                    InProgressItem.appendChild(InProgressItemBtn);
-
-                    container.appendChild(badge);
-                    container.appendChild(InProgressItemDate);
-                    console.log("Test Three Passed");
-
-                    // Store the item data in the array
-                    addedItems.push({
-                        id: RanId,
-                        date: todoItemDate,
-                        topic: todoItemTopic,
-                        details: todoItemDetails,
-                    });
-
-                    // Save the addedItems array in local storage
-                    RandName = RandomIdGenerate(143, 23309);
-                    localStorage.setItem(RandName, JSON.stringify(addedItems));
-
-                    todoItem.remove();
-                }
-            } else {
-                console.log("Test Two Failed");
-                console.error("todoItemTopic is undefined");
-            }
-
-        }
-    }
-
-    // Load items from local storage when the page is reloaded
-    window.onload = function () {
-        // Get all keys from local storage
-        let allKeys = Object.keys(localStorage);
-
-        // Iterate through all keys
-        allKeys.forEach((key) => {
-            // Check if the key matches a certain pattern or criteria
-            // For example, you can check if the key starts with a specific prefix
-            if (key < 23309) {
-                // Retrieve the item using the key
-                let storedItems = localStorage.getItem(key);
-
-                if (storedItems) {
-                    let itemsArray = JSON.parse(storedItems);
-
-                    // Now you have the itemsArray for this key
-                    console.log(itemsArray);
-
-                    // Iterate through the items and do something with them
-                    itemsArray.forEach((item) => {
-                        recreateElementOnPage(item);
-                    });
-                }
-            }
-        });
-    };
-
-    function recreateElementOnPage(item) {
-        let InProgress = document.getElementById("InProgress");
-        let InProgressItem = document.createElement("div");
-        InProgressItem.classList.add("p-3", "bg-body-tertiary", "border", "rounded-4", "list");
-        InProgressItem.setAttribute("id", item.id);
-
-        let container = document.createElement("div");
-        let badge = document.createElement("div");
-        let InProgressItemDate = document.createElement("h5");
-        let InProgressItemTopic = document.createElement("h4");
-        let InProgressItemDetails = document.createElement("p");
-        let InProgressItemBtn = document.createElement("button");
-
-        InProgressItemBtn.classList.add("btn", "btn-outline-secondary");
-
-
-        container.style = "display:grid; grid-template-columns:1fr 1fr;";
-        badge.style = "background-color: rgb(255, 238, 0);width: 10px;height: 10px;border-radius: 100%;";
-        InProgressItemDate.style = "font-size: 0.8em;text-align: right;";
-        InProgressItemDate.innerHTML = item.date;
-        InProgressItemTopic.innerHTML = item.topic;
-        InProgressItemDetails.innerHTML = item.details;
-        InProgressItemBtn.innerText = "Work Completed";
-
-        InProgressItem.appendChild(container);
-        InProgressItem.appendChild(InProgressItemTopic);
-        InProgressItem.appendChild(InProgressItemDetails);
-        InProgressItem.appendChild(InProgressItemBtn);
-
-        container.appendChild(badge);
-        container.appendChild(InProgressItemDate);
-
-        InProgress.appendChild(InProgressItem);
-    }
-</script>
-
+<script src="todo.js"></script>
 
 </html>
