@@ -15,10 +15,39 @@
     <script src="./assets/js/color-modes.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        .show {
+            animation: 0.2s ease-in-out show;
+        }
+
+        .hide {
+            animation: 0.2s ease-in-out hide;
+        }
+
+        @keyframes show {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes hide {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -206,7 +235,7 @@
 
     <main class="d-flex flex-nowrap">
 
-        
+
 
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
             <symbol id="bootstrap" viewBox="0 0 118 94">
@@ -239,6 +268,7 @@
                     d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
             </symbol>
         </svg>
+
 
         <div class="d-flex flex-column flex-shrink-0 bg-body-tertiary" style="width: 4.5rem;">
             <a href="/" class="d-block p-3 link-body-emphasis text-decoration-none" title="Icon-only"
@@ -352,18 +382,33 @@
             <div style="overflow-y: scroll; height: 100vh;padding-bottom: 50px;" class="scroll container">
                 <div class="row mb-4 text-center">
                     <!-- Options / Filters / Add Todo -->
-                    <div style="border: none" class="col-sm-12 ">
-                        <div style="display: flex; width: 100%; height: 100%; padding: 15px 5px;">
+                    <div style="border: none" class="col-sm-12">
+                        <div
+                            style="display: flex; width: 100%; height: 100%; justify-content: space-between; padding: 15px 5px;">
                             <div>
-                                <button onclick="AddTodo()" style="outline: none;border: none;background-color: transparent;" data-toggle="modal" data-target="#exampleModal" type="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                                      </svg>
+                                <button onclick="AddTodo('GetIntput','aria-hidden')"
+                                    style="outline: none;border: none;background-color: transparent;" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                        <path
+                                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                    </svg>
                                 </button>
                             </div>
+                            <button onclick="ClearTodos()"
+                                style="display: flex; background-color: transparent; border: none; outline: none; font-weight: 500;">
+                                <div>Clear all</div>
+                                <svg style="margin:5px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
+
                     <!-- ToDo List -->
                     <div style="border-right: none;" class="col-sm-4 themed-grid-col rid">
                         <div id="NaMe" style="width: 100%;height: 50px;">
@@ -391,10 +436,46 @@
             </div>
 
         </div>
+
     </main>
 
-    
-
+    <div class="modal fade" id="GetIntput" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Todo</h5><span style="font-size: 0.8em;padding:10px;color: red;" id="warnWind"></span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label style="margin-right: 27px;" for="TopicName" class="col-form-label">Title</label>
+                        </div>
+                        <div style="margin-bottom: 20px;" class="col-auto">
+                            <input type="text" id="TopicName" class="form-control"
+                                aria-describedby="passwordHelpInline">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                            <label for="TopicDetail" class="col-form-label">In Detail</label>
+                        </div>
+                        <div class="col-auto">
+                            <input type="text" id="TopicDetail" class="form-control"
+                                aria-describedby="passwordHelpInline">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="SaveBtn" type="button" class="btn btn-primary" >Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
 

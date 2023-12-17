@@ -1,97 +1,208 @@
-// Displaying Form to add todo 
 
 // Creating an function to generate random numbers
 function RandomIdGenerate(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 // Generating Random numbers
-let RandId = RandomIdGenerate(8324, 2842);
+// var RandId = RandomIdGenerate(8324, 2842);
+var CustomID = RandomIdGenerate(2323, 2842);
 
 let RanId = RandomIdGenerate(8324, 2842);
 
 // Initialize an array to store the IDs of added items
 let addTodo = [];
 
+
+const searchArray = (value) => {
+    // Assuming 'id' is the value you want to search for
+    let idToFind = value;
+
+    let foundKey = null;
+    let foundValue = null; // Variable to store the found value
+
+    let keys = Object.keys(localStorage);
+
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let storedItems = localStorage.getItem(key);
+
+        console.log(`Checking key: ${key}`);
+
+        if (storedItems) {
+            let itemsArray = JSON.parse(storedItems);
+
+            // Assuming 'id' is the property you want to search for
+            for (let j = 0; j < itemsArray.length; j++) {
+                console.log(`Checking item: ${JSON.stringify(itemsArray[j])}`);
+
+                // Ensure the type of the id matches before comparison
+                if (itemsArray[j].id === parseInt(idToFind, 10)) {
+                    foundKey = key;
+                    foundValue = itemsArray; // Store the found value
+                    break; // exit the loop once key is found
+                }
+            }
+        }
+
+        // Move the condition outside of the inner loop
+        if (foundKey) {
+            break; // exit the outer loop once key is found
+        }
+    }
+
+    return foundKey;
+}
+
+const Callback = (v) => {
+    if (v) {
+        console.log(`Finding Key: ${v}`)
+        console.log(`Key Found: ${v}`);
+        localStorage.removeItem(v);
+    } else {
+        console.error(`Key not found: ${v}`);
+        console.error("Trying debug"); // Line number 
+    }
+}
+
+function getCurrentDate() {
+    const currentDate = new Date();
+
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+    const year = String(currentDate.getFullYear()).slice(-2); // Get the last two digits of the year
+
+    return `${day}/${month}/${year}`;
+}
+
+
 // Add Todo
 
-function AddTodo() {
-    let topic = prompt("Enter Topic name");
-    let date = prompt("Enter Date In formate of DD/MM/YY");
-    let details = prompt("Enter More details about your topic (in 20 words)");
+function AddTodo(id, RemoveElement) {
 
+    let modalWindow = document.getElementById(id);
+
+    modalWindow.style = "display:block;background-color: rgba(0, 0, 0, 0.288);";
+    modalWindow.classList.add("show");
+    modalWindow.removeAttribute(RemoveElement);
+
+    let SaveBtn = modalWindow.querySelector("#SaveBtn");
+
+    const adding_data = () => {
+        let topic = modalWindow.querySelector("#TopicName");
+        let date = getCurrentDate();
+        let details = modalWindow.querySelector("#TopicDetail");
+        let waring = modalWindow.querySelector("#warnWind")
+        console.log(topic.value)
+
+        console.log(topic.value.length);
+        
+        if ((topic.value.length > 1 && topic.value.length < 16) && (details.value.length > 1 && details.value.length < 60)) {
+            modalWindow.classList.remove("show");
+            modalWindow.classList.add("hide");
+            modalWindow.style = "display:none";
+            setTimeout(() => {
+                modalWindow.classList.remove("hide");
+            }, 1000);
+
+            // Creating Elements
+            let todo = document.createElement("div");
+
+            Tdo.appendChild(todo);
+
+            if (todo) {
+
+                while (addTodo.some(item => item.id === CustomID)) {
+                    CustomID = RandomIdGenerate(1343, 10309);
+                }
+
+                let container = document.createElement("div");
+                let badge = document.createElement("div");
+
+                let todoDate = document.createElement("h5");
+                let todoTopic = document.createElement("h4");
+
+                let todoDetails = document.createElement("p");
+                let button = document.createElement("buttton");
+                // Adding Class , id's , style and some events in creatred elements
+
+                todo.classList.add("p-3", "bg-body-tertiary", "border", "rounded-4", "list");
+                button.classList.add("btn", "btn-outline-secondary");
+
+
+                todo.setAttribute("id", CustomID);
+                todoDate.setAttribute("class", "date");
+                todoTopic.setAttribute("class", "topic");
+                todoDetails.setAttribute("class", "details");
+                button.setAttribute("onclick", `todoNextStep('todo', '${CustomID}')`);
+
+
+                container.style = "display: grid; grid-template-columns: 1fr 1fr;";
+                badge.style = "background-color: red;width: 10px;height: 10px;border-radius: 100%;";
+                todoDate.style = "font-size: 0.8em;text-align: right;";
+                todoDetails.style = "word-wrap: break-word;";
+
+                todoDate.innerHTML = date;
+                todoTopic.innerHTML = topic.value;
+                todoDetails.innerHTML = details.value;
+                button.innerHTML = "Let's Work";
+
+                console.log(todoDate.innerText);
+
+
+                todo.appendChild(container);
+                todo.appendChild(todoTopic);
+                todo.appendChild(todoDetails);
+                todo.appendChild(button);
+
+                container.appendChild(badge);
+                container.appendChild(todoDate);
+
+
+                RanName = RandomIdGenerate(143, 1920);
+
+                // Store the item data in the array
+                addTodo.push({
+                    id: CustomID,
+                    S_Id: RanName,
+                    date: todoDate.innerText,
+                    topic: todoTopic.innerText,
+                    color: "red",
+                    details: todoDetails.innerText,
+                });
+
+
+
+                // Save the addedItems array in local storage
+                localStorage.setItem(RanName, JSON.stringify(addTodo));
+
+
+            }
+        }
+        else{
+            if (!(topic.value.length > 1 && topic.value.length < 16)) {
+                if (waring) {
+                    waring.textContent = `Title of todo must be between 2 and 15 characters.`;
+                }
+            } else if (!(details.value.length > 1 && details.value.length < 60)) {
+                if (waring) {
+                    waring.textContent = `Details of todo must be between 2 and 59 characters.`;
+                }
+            } else {
+                console.log("other");
+            }
+            
+            
+        }
+    }
+
+    SaveBtn.addEventListener("click", function handleClick() {
+        adding_data();
+    
+    });
+    
 
     let Tdo = document.getElementById("todo");
 
-
-    // Generating Random numbers
-    let RandId = RandomIdGenerate(8324, 2842);
-
-    // Creating Elements
-    let todo = document.createElement("div");
-
-    Tdo.appendChild(todo);
-
-    if (todo) {
-
-        while (addTodo.some(item => item.id === RanId)) {
-            RanId = RandomIdGenerate(1343, 10309);
-        }
-
-        let container = document.createElement("div");
-        let badge = document.createElement("div");
-
-        let todoDate = document.createElement("h5");
-        let todoTopic = document.createElement("h4");
-
-        let todoDetails = document.createElement("p");
-        let button = document.createElement("buttton");
-        // Adding Class , id's , style and some events in creatred elements
-
-        todo.classList.add("p-3", "bg-body-tertiary", "border", "rounded-4", "list");
-        button.classList.add("btn", "btn-outline-secondary");
-
-        todo.setAttribute("id", RandId);
-        todoDate.setAttribute("id", "date");
-        todoTopic.setAttribute("id", "topic");
-        todoDetails.setAttribute("id", "details");
-        button.setAttribute("onclick", "todoNextStep('todo', '" + RandId + "')");
-
-
-        container.style = "display: grid; grid-template-columns: 1fr 1fr;";
-        badge.style = "background-color: red;width: 10px;height: 10px;border-radius: 100%;";
-        todoDate.style = "font-size: 0.8em;text-align: right;";
-
-        todoDate.innerHTML = date;
-        todoTopic.innerHTML = topic;
-        todoDetails.innerHTML = details;
-        button.innerHTML = "Let's Work";
-
-        console.log(todoDate.innerText);
-
-
-        todo.appendChild(container);
-        todo.appendChild(todoTopic);
-        todo.appendChild(todoDetails);
-        todo.appendChild(button);
-
-        container.appendChild(badge);
-        container.appendChild(todoDate);
-
-        // Store the item data in the array
-        addTodo.push({
-            id: RandId,
-            date: todoDate.innerText,
-            topic: todoTopic.innerText,
-            color: "red",
-            details: todoDetails.innerText,
-        });
-
-        // Save the addedItems array in local storage
-        RanName = RandomIdGenerate(143, 1920);
-        localStorage.setItem(RanName, JSON.stringify(addTodo));
-
-
-    }
 
 }
 
@@ -139,17 +250,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
 // Todo Main Js 
+
 
 function todoNextStep(category, id) {
     // If category is todo then 
-    if (category == "todo") {
+    if (category === "todo") {
 
         // Selecting Todo Data from todo
         let todoItem = document.getElementById(id);
-        let todoItemDate = todoItem.querySelector("#date").textContent;
-        let todoItemTopic = todoItem.querySelector("#topic").textContent;
-        let todoItemDetails = todoItem.querySelector("#details").textContent;
+        console.log(todoItem);
+
+        // Check if the element with the specified ID exists
+        if (!todoItem) {
+            console.error(`Element not found with id: ${id}`);
+            return;
+        }
+        let todoItemDateElement = todoItem.querySelector(".date");
+
+        // Check if the element with the specified ID exists
+        if (!todoItemDateElement) {
+            console.error(`Element not found with id: date - ${todoItemDateElement}`);
+            return;
+        }
+
+        let todoItemDate = todoItemDateElement.innerText;
+
+        let todoItemTopic = todoItem.querySelector(".topic").innerText;
+        let todoItemDetails = todoItem.querySelector(".details").innerText;
 
         // Test One Passed
         console.log("Test One Passed");
@@ -195,10 +324,12 @@ function todoNextStep(category, id) {
                 container.style = "display:grid; grid-template-columns:1fr 1fr;";
                 badge.style = "background-color: rgb(255, 238, 0);width: 10px;height: 10px;border-radius: 100%;";
                 InProgressItemDate.style = "font-size: 0.8em;text-align: right;";
+                InProgressItemDetails.style = "word-wrap: break-word;";
 
-                InProgressItemDate.setAttribute("id", "date");
-                InProgressItemTopic.setAttribute("id", "topic");
-                InProgressItemDetails.setAttribute("id", "details");
+                InProgressItemDate.setAttribute("class", "date");
+                InProgressItemTopic.setAttribute("class", "topic");
+                InProgressItemDetails.setAttribute("class", "details");
+                InProgressItemBtn.setAttribute("onclick", `todoNextStep('todo', '${RanId}')`);
 
                 InProgressItemDate.innerHTML = todoItemDate;
                 InProgressItemTopic.innerHTML = todoItemTopic;
@@ -214,6 +345,8 @@ function todoNextStep(category, id) {
                 container.appendChild(InProgressItemDate);
                 console.log("Test Three Passed");
 
+                RandName = RandomIdGenerate(143, 1920);
+
                 // Store the item data in the array
                 addedItems.push({
                     id: RanId,
@@ -221,38 +354,17 @@ function todoNextStep(category, id) {
                     topic: todoItemTopic,
                     color: "rgb(255, 238, 0)",
                     details: todoItemDetails,
+                    previous_id: id,
                 });
 
+
+
                 // Save the addedItems array in local storage
-                RandName = RandomIdGenerate(143, 1920);
                 localStorage.setItem(RandName, JSON.stringify(addedItems));
 
+
+
                 todoItem.remove();
-
-                // Assuming you know the id value
-                let idToRemove = id;
-
-                // Iterate through all localStorage entries
-                for (let i = 0; i < localStorage.length; i++) {
-                    let key = localStorage.key(i);
-                    let storedItems = JSON.parse(localStorage.getItem(key));
-
-                    // Check if the item with the matching ID is found
-                    let foundIndex = storedItems.findIndex(item => item.id === idToRemove);
-                    console.log(key);
-
-                    if (foundIndex !== -1) {
-                        // Remove the entire key-value pair from localStorage
-                        localStorage.removeItem(key);
-                        console.log(`Removed item with ID ${idToRemove} by removing key ${key}`);
-                        // Break the loop if you only want to remove the first occurrence
-                        break;
-                    }
-                }
-
-
-
-
             }
         } else {
             console.log("Test Two Failed");
@@ -260,7 +372,27 @@ function todoNextStep(category, id) {
         }
 
     }
+    Callback(searchArray(id));
+    
+
+
 }
+
+// Clear all todos
+
+function ClearTodos() {
+    // Get all keys from local storage
+    let allKeys = Object.keys(localStorage);
+
+    // Iterate through all keys and remove each key-value pair
+    allKeys.forEach((key) => {
+        localStorage.removeItem(key);
+    });
+
+    // Optionally, you can also reload the window after clearing the storage
+    location.reload();
+}
+
 
 // Load items from local storage when the page is reloaded
 window.onload = function () {
@@ -278,21 +410,15 @@ window.onload = function () {
             if (storedItems) {
                 let itemsArray = JSON.parse(storedItems);
 
-                // Now you have the itemsArray for this key
-                console.log(itemsArray);
-
                 // Iterate through the items and do something with them
                 itemsArray.forEach((item) => {
                     // Assuming each item has a property named "color"
                     let color = item.color;
-
-                    localStorage.removeItem(696);
-
                     if (color == "red") {
-                        recreateElementOnPage(item, "red", "todo");
+                        recreateElementOnPage(item, "red", "todo", "Let's Work");
                     }
                     else {
-                        recreateElementOnPage(item, "rgb(255, 238, 0)", "InProgress");
+                        recreateElementOnPage(item, "rgb(255, 238, 0)", "InProgress", "In Progress");
                     }
 
                 });
@@ -301,7 +427,7 @@ window.onload = function () {
     });
 };
 
-function recreateElementOnPage(item, color, idOfDiv) {
+function recreateElementOnPage(item, color, idOfDiv, Values) {
 
 
     let InProgress = document.getElementById(idOfDiv);
@@ -318,14 +444,23 @@ function recreateElementOnPage(item, color, idOfDiv) {
 
     InProgressItemBtn.classList.add("btn", "btn-outline-secondary");
 
+    InProgressItemDate.setAttribute("class", "date");
+    InProgressItemTopic.setAttribute("class", "topic");
+    InProgressItemDetails.setAttribute("class", "details");
+
 
     container.style = "display:grid; grid-template-columns:1fr 1fr;";
     badge.style = "background-color: " + color + " ;width: 10px;height: 10px;border-radius: 100%;";
     InProgressItemDate.style = "font-size: 0.8em;text-align: right;";
+    InProgressItemDetails.style = "word-wrap: break-word;";
+
+
     InProgressItemDate.innerText = item.date;
     InProgressItemTopic.innerText = item.topic;
     InProgressItemDetails.innerText = item.details;
-    InProgressItemBtn.innerText = "Work Completed";
+
+    InProgressItemBtn.innerText = Values; // Set the innerText based on result.Text or any other property
+    InProgressItemBtn.setAttribute("onclick", `todoNextStep('todo', '${item.id}')`);
 
     InProgressItem.appendChild(container);
     InProgressItem.appendChild(InProgressItemTopic);
@@ -337,3 +472,6 @@ function recreateElementOnPage(item, color, idOfDiv) {
 
     InProgress.appendChild(InProgressItem);
 }
+
+
+
