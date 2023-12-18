@@ -86,16 +86,23 @@ function AddTodo(id, RemoveElement) {
     modalWindow.removeAttribute(RemoveElement);
 
     let SaveBtn = modalWindow.querySelector("#SaveBtn");
+    let topic = modalWindow.querySelector("#TopicName");
+    let date = getCurrentDate();
+    let details = modalWindow.querySelector("#TopicDetail");
+    let waring = modalWindow.querySelector("#warnWind");
 
+    if (topic.value && details.value) {
+        topic.value = '';
+        details.value = '';
+    } else {
+        topic.value = '';
+        details.value = '';
+    }
+    
     const adding_data = () => {
-        let topic = modalWindow.querySelector("#TopicName");
-        let date = getCurrentDate();
-        let details = modalWindow.querySelector("#TopicDetail");
-        let waring = modalWindow.querySelector("#warnWind")
-        console.log(topic.value)
-
+        console.log(topic.value);
         console.log(topic.value.length);
-        
+    
         if ((topic.value.length > 1 && topic.value.length < 16) && (details.value.length > 1 && details.value.length < 60)) {
             modalWindow.classList.remove("show");
             modalWindow.classList.add("hide");
@@ -103,65 +110,63 @@ function AddTodo(id, RemoveElement) {
             setTimeout(() => {
                 modalWindow.classList.remove("hide");
             }, 1000);
-
+    
             // Creating Elements
             let todo = document.createElement("div");
-
             Tdo.appendChild(todo);
-
+    
             if (todo) {
-
                 while (addTodo.some(item => item.id === CustomID)) {
                     CustomID = RandomIdGenerate(1343, 10309);
                 }
-
+    
                 let container = document.createElement("div");
                 let badge = document.createElement("div");
-
                 let todoDate = document.createElement("h5");
                 let todoTopic = document.createElement("h4");
-
                 let todoDetails = document.createElement("p");
                 let button = document.createElement("buttton");
-                // Adding Class , id's , style and some events in creatred elements
-
+    
+                // Adding Class, id's, style, and some events in created elements
                 todo.classList.add("p-3", "bg-body-tertiary", "border", "rounded-4", "list");
                 button.classList.add("btn", "btn-outline-secondary");
-
-
+    
                 todo.setAttribute("id", CustomID);
                 todoDate.setAttribute("class", "date");
                 todoTopic.setAttribute("class", "topic");
                 todoDetails.setAttribute("class", "details");
                 button.setAttribute("onclick", `todoNextStep('todo', '${CustomID}')`);
-
-
+    
                 container.style = "display: grid; grid-template-columns: 1fr 1fr;";
                 badge.style = "background-color: red;width: 10px;height: 10px;border-radius: 100%;";
                 todoDate.style = "font-size: 0.8em;text-align: right;";
                 todoDetails.style = "word-wrap: break-word;";
-
+    
                 todoDate.innerHTML = date;
                 todoTopic.innerHTML = topic.value;
                 todoDetails.innerHTML = details.value;
                 button.innerHTML = "Let's Work";
-
+    
                 console.log(todoDate.innerText);
-
-
+    
                 todo.appendChild(container);
                 todo.appendChild(todoTopic);
                 todo.appendChild(todoDetails);
                 todo.appendChild(button);
-
+    
                 container.appendChild(badge);
                 container.appendChild(todoDate);
-
-
+    
                 RanName = RandomIdGenerate(143, 1920);
-
-                // Store the item data in the array
-                addTodo.push({
+    
+                // Retrieve existing todos from local storage
+                let existingTodos = JSON.parse(localStorage.getItem(RanName)) || [];
+    
+                // Clear local storage
+                localStorage.removeItem(RanName);
+    
+                // Add new todo to the existing todos
+                existingTodos.push({
                     id: CustomID,
                     S_Id: RanName,
                     date: todoDate.innerText,
@@ -169,16 +174,11 @@ function AddTodo(id, RemoveElement) {
                     color: "red",
                     details: todoDetails.innerText,
                 });
-
-
-
-                // Save the addedItems array in local storage
-                localStorage.setItem(RanName, JSON.stringify(addTodo));
-
-
+    
+                // Save the updated array in local storage
+                localStorage.setItem(RanName, JSON.stringify(existingTodos));
             }
-        }
-        else{
+        } else {
             if (!(topic.value.length > 1 && topic.value.length < 16)) {
                 if (waring) {
                     waring.textContent = `Title of todo must be between 2 and 15 characters.`;
@@ -190,15 +190,23 @@ function AddTodo(id, RemoveElement) {
             } else {
                 console.log("other");
             }
-            
-            
         }
-    }
-
-    SaveBtn.addEventListener("click", function handleClick() {
-        adding_data();
+    };
     
-    });
+
+    const handleClick = (event) => {
+        event.preventDefault(); // Prevent default form submission
+        adding_data();
+    };
+
+    // Check if the event listener is already attached
+    const existingListener = SaveBtn.getAttribute("data-listener");
+    if (!existingListener) {
+        // Attach the event listener
+        SaveBtn.addEventListener("click", handleClick);
+        SaveBtn.setAttribute("data-listener", "true");
+    }
+    
     
 
     let Tdo = document.getElementById("todo");
@@ -373,8 +381,6 @@ function todoNextStep(category, id) {
 
     }
     Callback(searchArray(id));
-    
-
 
 }
 
