@@ -75,6 +75,36 @@ function getCurrentDate() {
 }
 
 
+const CloseModal = (id) => {
+    let modalWindow = document.getElementById(id);
+
+    modalWindow.classList.add("hide");
+    if (modalWindow.style.display === "block") {
+        modalWindow.classList.remove("show");
+        setTimeout(() => {
+            modalWindow.classList.remove("hide");
+            modalWindow.style.display = "none";
+        }, 1000);
+    }
+
+    let topic = modalWindow.querySelector("#TopicName");
+    let details = modalWindow.querySelector("#TopicDetail");
+    let warning = modalWindow.querySelector("#warnWind");
+
+    if (topic.value && details.value) {
+        topic.value = '';
+        details.value = '';
+    } else {
+        topic.value = '';
+        details.value = '';
+    }
+    if (warning.textContent !== "") {
+        warning.textContent = "";
+    }
+}
+
+
+
 // Add Todo
 
 function AddTodo(id, RemoveElement) {

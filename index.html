@@ -445,8 +445,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Create Todo</h5><span style="font-size: 0.8em;padding:10px;color: red;" id="warnWind"></span>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" onclick="CloseModal('GetIntput')" class="close">
+                        <span>&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -455,8 +455,7 @@
                             <label style="margin-right: 27px;" for="TopicName" class="col-form-label">Title</label>
                         </div>
                         <div style="margin-bottom: 20px;" class="col-auto">
-                            <input type="text" id="TopicName" class="form-control"
-                                aria-describedby="passwordHelpInline">
+                            <input type="text" id="TopicName" class="form-control">
                         </div>
                     </div>
                     <div class="row g-3 align-items-center">
@@ -464,13 +463,12 @@
                             <label for="TopicDetail" class="col-form-label">In Detail</label>
                         </div>
                         <div class="col-auto">
-                            <input type="text" id="TopicDetail" class="form-control"
-                                aria-describedby="passwordHelpInline">
+                            <input type="text" id="TopicDetail" class="form-control" >
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" onclick="CloseModal('GetIntput')" data-dismiss="modal">Close</button>
                     <button id="SaveBtn" type="button" class="btn btn-primary" >Save changes</button>
                 </div>
             </div>
